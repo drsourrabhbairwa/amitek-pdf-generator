@@ -231,6 +231,15 @@ st.markdown("Fill in the fields below. **Empty sections will automatically be hi
 
 web_app_url = "https://script.google.com/macros/s/AKfycbwVOXwd6-WOrk2WGqRypQvKNwaQgaXHuvjccu5_RxOvEz_dEZMm19vMEJgy3T199r2n8w/exec"
 
+# Product List Dropdown Options
+PRODUCT_CATALOG = [
+    "APP Proof WP-100 (Waterproofing Coating)",
+    "APP Shield Elastic Membrane",
+    "AMITEK Primer Prime-Seal",
+    "APP Roof Guard Thermal Coating",
+    "Custom / Other Product"
+]
+
 with st.form("amitek_quote_form"):
     st.subheader("🔒 Private Internal Fields (Hidden from PDF)")
     col_p1, col_p2 = st.columns(2)
@@ -268,10 +277,11 @@ with st.form("amitek_quote_form"):
         item_count = st.number_input("Number of Items", min_value=1, max_value=10, value=1)
         for i in range(int(item_count)):
             c1, c2, c3 = st.columns([2, 1, 1])
-            item_name = c1.text_input(f"Item #{i+1} Description", key=f"item_{i}", value="Chemical Coating A")
+            # Dropdown menu for your 5 products
+            item_name = c1.selectbox(f"Select Product #{i+1}", PRODUCT_CATALOG, key=f"item_{i}")
             qty = c2.number_input(f"Qty", key=f"q_{i}", min_value=1, value=10)
             price = c3.number_input(f"Unit Price (₹)", key=f"p_{i}", min_value=0.0, value=500.0)
-            if item_name.strip():
+            if item_name:
                 billing_list.append({"item": item_name, "qty": qty, "price": price})
 
     st.subheader("✍️ Biller & Authorization Details [Optional]")
